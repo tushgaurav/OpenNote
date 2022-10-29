@@ -1,0 +1,23 @@
+{
+  "name": "opennote",
+  "version": "1.0.0",
+  "description": "A Open Sourced note desktop note taking application for the privacy focused people. We don't upload and share any user data.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tushgaurav/OpenNote.git"
+  },
+  "keywords": [
+    "Notes"
+  ],
+  "author": "Tushar Gaurav",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/tushgaurav/OpenNote/issues"
+  },
+  "homepage": "https://github.com/tushgaurav/OpenNote#readme"
+}
