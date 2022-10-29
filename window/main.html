@@ -2,19 +2,52 @@
 <html lang="en">
   <head>
     <title>OpenNotes</title>
+    <link rel="stylesheet" href="style/base.css" />
   </head>
   <body>
     <h3>The Privacy Standard.</h3>
     <hr />
     <h2>Notes</h2>
-    <div class="note-display">
-      <h3>Sample Title</h3>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse magnam
-        numquam saepe unde asperiores. Ratione architecto quod hic, repellendus
-        eveniet iure blanditiis. Incidunt esse minima sapiente nobis nihil
-        fugiat repellendus necessitatibus dignissimos cupiditate quae!
-      </p>
-    </div>
+    <section class="note-display">
+      <div class="note">
+        <h3>Sample Title</h3>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse magnam
+          numquam saepe unde asperiores. Ratione architecto quod hic,
+          repellendus eveniet iure blanditiis. Incidunt esse minima sapiente
+          nobis nihil fugiat repellendus necessitatibus dignissimos cupiditate
+          quae!
+        </p>
+      </div>
+    </section>
+
+    <script>
+      const electron = require("electron");
+      const { ipcRenderer } = electron;
+      const section = document.querySelector("note-display");
+
+      ipcRenderer.on("title:add", function (e, title) {
+        const div = document.createElement("div");
+        const h3 = document.createElement("h3");
+
+        div.className = "note";
+        h3.className = "note_title";
+
+        const noteTitle = document.createTextNode(title);
+        h3.appendChild(noteTitle);
+        div.appendChild(h3);
+        section.appendChild(div);
+      });
+
+      ipcRenderer.on("note:clear", function () {
+        section.innerHTML = "";
+      });
+
+      section.addEventListener("dblclick", removeNote);
+
+      function removeNote(e) {
+        event.target.remove();
+      }
+    </script>
   </body>
 </html>
