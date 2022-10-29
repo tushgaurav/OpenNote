@@ -2,13 +2,21 @@ const electron = require("electron");
 const url = require("url");
 const path = require("path");
 
-const { app, BrowserWindow, Menu } = electron;
+// environment set variable
+process.env.NODE_ENV = "development";
+
+const { app, BrowserWindow, Menu, ipcMain } = electron;
 
 let mainWindow;
 let addWindow;
+let aboutWindow;
 
 app.on("ready", function () {
-  mainWindow = new BrowserWindow({});
+  mainWindow = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
   mainWindow.loadURL(
     url.format({
       pathname: path.join(__dirname, "window/main.html"),
@@ -82,6 +90,9 @@ function createAddWindow() {
     width: 600,
     height: 600,
     title: "Add New Note",
+    webPreferences: {
+      nodeIntegration: true,
+    },
   });
   addWindow.loadURL(
     url.format({
@@ -92,7 +103,43 @@ function createAddWindow() {
   );
 
   // memory optimization, when closed remove the reference
-  addWindow.on("close", function () {
-    addWindow = null;
+  addWindow.on("close", () => (addWindow = null));
+}
+
+function exportNoteWindow() {}
+
+function aboutAppWindow() {
+  aboutWindow = new BrowserWindow({
+    width: 400,
+    height: 400,
+    title: "About - OpenNotes",
+  });
+
+  aboutWindow.on("close", () => (aboutWindow = null));
+}
+
+// catch title:add
+ipcMain.on("title:add", function (e, title) {
+  mainWindow.webContents.send("title:add", title);
+  addWindow.close();
+  addWindow = null;
+});
+
+// developer option menu (displayed in the DEV build)
+if (process.env.NODE_ENV !== "production") {
+  mainMenuTemplate.push({
+    label: "Tools",
+    submenu: [
+      {
+        role: "reload",
+      },
+      {
+        label: "Toggle DevTools",
+        accelerator: process.platform == "darwin" ? "Command+I" : "Ctrl+I",
+        click(item, focusedWindow) {
+          focusedWindow.toggleDevTools();
+        },
+      },
+    ],
   });
 }
