@@ -2,16 +2,19 @@
 <html lang="en">
   <head>
     <title>Add New Note</title>
+    <link rel="stylesheet" href="style/base.css" />
+    <link rel="stylesheet" href="style/form.css" />
   </head>
   <body>
     <form>
+      <h3 id="logo">Add Note</h3>
       <label for="title">Title</label>
       <input type="text" name="title" id="title" />
 
       <label for="note">Content</label>
-      <input type="text" name="content" id="content" />
+      <textarea id="note" id="description">Enter your note here.</textarea>
 
-      <button type="submit">Add Note</button>
+      <input type="submit" value="Add Note" />
     </form>
 
     <script src="../src/add_note.js"></script>
