@@ -89,6 +89,7 @@ function createAddWindow() {
     width: 600,
     height: 600,
     title: "Add New Note",
+    removeMenu: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
