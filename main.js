@@ -1,6 +1,9 @@
+// OpenNote: Open Sourced Note Taking
+// IN DEVELOPMENT
+
 const electron = require("electron");
-const url = require("url");
 const path = require("path");
+const url = require("url");
 
 // environment set variable
 process.env.NODE_ENV = "development";
@@ -15,15 +18,11 @@ app.on("ready", function () {
   mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
     },
   });
-  mainWindow.loadURL(
-    url.format({
-      pathname: path.join(__dirname, "window/main.html"),
-      protocol: "file:",
-      slashes: true,
-    })
-  );
+  mainWindow.loadURL(`file://${__dirname}/window/main.html`);
 
   // quit application when main window is closed
   mainWindow.on("closed", () => app.quit());
@@ -92,6 +91,8 @@ function createAddWindow() {
     title: "Add New Note",
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
     },
   });
   addWindow.loadURL(
@@ -119,8 +120,8 @@ function aboutAppWindow() {
 }
 
 // catch title:add
-ipcMain.on("title:add", function (e, title) {
-  mainWindow.webContents.send("title:add", title);
+ipcMain.on("note:add", function (e, note) {
+  mainWindow.webContents.send("note:add", note);
   addWindow.close();
   addWindow = null;
 });

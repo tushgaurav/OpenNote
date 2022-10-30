@@ -14,19 +14,6 @@
       <button type="submit">Add Note</button>
     </form>
 
-    <script>
-      const electron = require("electron");
-      const { ipcRenderer } = electron;
-
-      document.querySelector("form").addEventListener("submit", submitForm);
-
-      function submitForm(e) {
-        e.preventDefault();
-        const title = document.querySelector("#title").value;
-        const content = document.querySelector("#content").value;
-        console.log(ipcRenderer);
-        ipcRenderer.send("title:add", title);
-      }
-    </script>
+    <script src="../src/add_note.js"></script>
   </body>
 </html>
